@@ -12,9 +12,9 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Slf4j
-@Configurable
+@Configuration
 @RequiredArgsConstructor
 public class HelloJobConfiguration {
 
@@ -23,31 +23,26 @@ public class HelloJobConfiguration {
 
     @Bean
     public Job helloJob() {
-        return this.jobBuilderFactory.get("helloJob")
-                .start(helloStep1())
-                .next(helloStep2())
+        return this.jobBuilderFactory.get("bathJob1")
+                .start(step1())
+                .next(step2())
                 .build();
     }
 
-    public Step helloStep1() {
-        return stepBuilderFactory.get("helloStep1")
+    @Bean
+    public Step step1() {
+        return stepBuilderFactory.get("step1")
                 .tasklet((contribution, chunkContext) -> {
-                    log.info(" ============================");
-                    log.info(" >> Hello Spring Batch");
-                    log.info(" ============================");
-
+                    System.out.println("step1");
                     return RepeatStatus.FINISHED;
                 })
                 .build();
     }
-    public Step helloStep2() {
-        return stepBuilderFactory.get("helloStep2")
+    @Bean
+    public Step step2() {
+        return stepBuilderFactory.get("step2")
                 .tasklet((contribution, chunkContext) -> {
-
-                    log.info(" ============================");
-                    log.info(" >> Step2 has executed");
-                    log.info(" ============================");
-
+                    System.out.println("step2");
                     return RepeatStatus.FINISHED;
                 })
                 .build();
