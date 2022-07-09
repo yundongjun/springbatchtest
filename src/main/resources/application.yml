@@ -5,3 +5,21 @@ spring:
     password: mybatis$
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+---
+spring:
+  profiles:
+    active: mysql
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mysql
+
+---
+spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
